@@ -1,4 +1,4 @@
-package com.zhbcompany.todo
+package com.zhbcompany.todo.feature_todo
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
