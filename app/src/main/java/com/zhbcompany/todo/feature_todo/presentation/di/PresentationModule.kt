@@ -5,6 +5,7 @@ import com.zhbcompany.todo.feature_todo.presentation.todo_list.TodoListViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 private fun provideTodoListViewModel(
@@ -15,5 +16,5 @@ private fun provideTodoListViewModel(
 }
 
 val presentationModule: Module = module {
-    viewModel { provideTodoListViewModel(get(), get()) }
+    viewModel { provideTodoListViewModel(get(), get(named("IoDispatcher"))) }
 }

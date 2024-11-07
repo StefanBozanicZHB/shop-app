@@ -10,6 +10,7 @@ import com.zhbcompany.todo.feature_todo.domain.repo.TodoListRepo
 import kotlinx.coroutines.CoroutineDispatcher
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -50,5 +51,5 @@ val dataModule: Module = module {
     single { provideTodoDao(get()) }
     single { provideRetrofit() }
     single { provideRetrofitApi(get()) }
-    single { provideTodoRepo(get(), get(), get()) }
+    single { provideTodoRepo(get(), get(), get(named("IoDispatcher"))) }
 }

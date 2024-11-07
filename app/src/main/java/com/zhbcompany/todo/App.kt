@@ -4,13 +4,15 @@ import android.app.Application
 import com.zhbcompany.todo.feature_todo.data.di.dataModule
 import com.zhbcompany.todo.feature_todo.domain.di.domainModule
 import com.zhbcompany.todo.feature_todo.presentation.di.presentationModule
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-class App: Application() {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -33,6 +35,7 @@ class App: Application() {
     }
 
     private val appModule: Module = module {
-        single { Dispatchers.IO }
+        single<CoroutineDispatcher>(named("IoDispatcher")) { Dispatchers.IO }
+        single<CoroutineDispatcher>(named("MainDispatcher")) { Dispatchers.Main }
     }
 }
