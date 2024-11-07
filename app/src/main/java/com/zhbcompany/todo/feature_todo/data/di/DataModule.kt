@@ -5,13 +5,16 @@ import androidx.room.Room
 import com.zhbcompany.todo.feature_todo.data.local.TodoDao
 import com.zhbcompany.todo.feature_todo.data.local.TodoDatabase
 import com.zhbcompany.todo.feature_todo.data.remote.TodoApi
+import com.zhbcompany.todo.feature_todo.data.repo.TodoListRepoImpl
+import com.zhbcompany.todo.feature_todo.domain.repo.TodoListRepo
+import kotlinx.coroutines.CoroutineDispatcher
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-fun provideDatabase(context: Context): TodoDatabase {
+private fun provideDatabase(context: Context): TodoDatabase {
     return Room.databaseBuilder(
         context,
         TodoDatabase::class.java,
@@ -21,11 +24,11 @@ fun provideDatabase(context: Context): TodoDatabase {
         .build()
 }
 
-fun provideTodoDao(database: TodoDatabase): TodoDao {
+private fun provideTodoDao(database: TodoDatabase): TodoDao {
     return database.dao
 }
 
-fun provideRetrofit(): Retrofit {
+private fun provideRetrofit(): Retrofit {
     return Retrofit.Builder()
         .addConverterFactory(
             GsonConverterFactory.create()
@@ -34,8 +37,12 @@ fun provideRetrofit(): Retrofit {
         .build()
 }
 
-fun provideRetrofitApi(retrofit: Retrofit): TodoApi {
+private fun provideRetrofitApi(retrofit: Retrofit): TodoApi {
     return retrofit.create(TodoApi::class.java)
+}
+
+private fun provideTodoRepo(db: TodoDatabase, api: TodoApi, dispatcher: CoroutineDispatcher): TodoListRepo {
+    return TodoListRepoImpl(db.dao, api, dispatcher)
 }
 
 val dataModule: Module = module {
@@ -43,4 +50,5 @@ val dataModule: Module = module {
     single { provideTodoDao(get()) }
     single { provideRetrofit() }
     single { provideRetrofitApi(get()) }
+    single { provideTodoRepo(get(), get(), get()) }
 }

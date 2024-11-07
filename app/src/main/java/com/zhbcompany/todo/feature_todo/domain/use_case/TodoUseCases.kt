@@ -45,11 +45,7 @@ class TodoUseCases(
         todoItemOrder: TodoItemOrder = TodoItemOrder.Time(SortingDirection.Down, true)
     ): TodoUseCaseResult {
         // todo change this logic
-        var todos = repo.getAllTodosFromLocalCache()
-
-        if (todos.isEmpty()) {
-            todos = repo.getAllTodos()
-        }
+        val todos = repo.getAllTodos()
 
         val filteredTodos = if (todoItemOrder.showArchived) {
             todos
