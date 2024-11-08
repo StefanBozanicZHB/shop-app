@@ -7,11 +7,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.zhbcompany.todo.feature_todo.presentation.todo_list.TodoListScreen
 import com.zhbcompany.todo.feature_todo.presentation.todo_list.TodoListViewModel
+import com.zhbcompany.todo.feature_todo.presentation.todo_new_update.TodoNewUpdateScreen
+import com.zhbcompany.todo.feature_todo.presentation.todo_new_update.TodoNewUpdateViewModel
 import com.zhbcompany.todo.feature_todo.presentation.util.Screen
 import com.zhbcompany.todo.ui.theme.TodoTheme
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -27,6 +31,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     val listViewModel : TodoListViewModel = getViewModel()
+                    val newUpdateViewModel : TodoNewUpdateViewModel = getViewModel()
 
                     NavHost(
                         navController = navController,
@@ -39,8 +44,21 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(route = Screen.TodoItemUpdateScreen.route) {
-                            // todo
+                        composable(
+                            route = Screen.TodoNewUpdateScreen.route + "?todoId={todoId}",
+                            arguments = listOf(
+                                navArgument(
+                                    name = "todoId",
+                                ) {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                }
+                            )
+                        ) {
+                            TodoNewUpdateScreen(
+                                navController = navController,
+                                viewModel = newUpdateViewModel
+                            )
                         }
                     }
                 }

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "todo")
 data class LocalTodoItem(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int?,
     val title: String,
     val description: String,
     val timestamp: Long,

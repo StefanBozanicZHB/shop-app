@@ -31,7 +31,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTopAppBarState
@@ -55,6 +54,7 @@ import com.zhbcompany.todo.core.presentation.util.ContentDescription
 import com.zhbcompany.todo.core.presentation.util.TodoListStrings
 import com.zhbcompany.todo.feature_todo.presentation.todo_list.components.SortingDrawerOptions
 import com.zhbcompany.todo.feature_todo.presentation.todo_list.components.TodoItemCard
+import com.zhbcompany.todo.feature_todo.presentation.util.Screen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -109,7 +109,7 @@ fun TodoListScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        /*TODO*/
+                        navController.navigate(Screen.TodoNewUpdateScreen.route)
                     },
                     shape = CircleShape,
                     containerColor = MaterialTheme.colorScheme.primary
@@ -204,9 +204,9 @@ fun TodoListScreen(
                                         viewModel.onEvent(TodoListEvent.ToggleArchived(todo))
                                     },
                                     onCardClick = {
-                                        /*navController.navigate(
-                                            //TODO
-                                        )*/
+                                        navController.navigate(
+                                            Screen.TodoNewUpdateScreen.route + "?todoId=${todo.id}"
+                                        )
                                     }
                                 )
                             }
@@ -242,6 +242,4 @@ fun TodoListScreen(
             }
         }
     }
-
-
 }

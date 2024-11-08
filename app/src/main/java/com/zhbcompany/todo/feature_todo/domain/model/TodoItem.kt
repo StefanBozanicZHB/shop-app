@@ -1,7 +1,7 @@
 package com.zhbcompany.todo.feature_todo.domain.model
 
 data class TodoItem(
-    val id: Int,
+    val id: Int?,
     val title: String,
     val description: String,
     val timestamp: Long,

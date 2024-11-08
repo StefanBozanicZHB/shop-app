@@ -9,7 +9,6 @@ import com.zhbcompany.todo.feature_todo.domain.use_case.TodoUseCaseResult
 import com.zhbcompany.todo.feature_todo.domain.use_case.TodoUseCases
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -18,7 +17,6 @@ class TodoListViewModel(
     private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-//    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
     // todo use state or flow
     private val _state = mutableStateOf(TodoListState())
     val state: State<TodoListState> = _state

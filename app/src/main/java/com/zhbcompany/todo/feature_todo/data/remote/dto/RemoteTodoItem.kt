@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class RemoteTodoItem(
     @SerializedName("ID")
-    val id: Int,
+    val id: Int?,
 
     @SerializedName("Title")
     val title: String,
