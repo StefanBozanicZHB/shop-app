@@ -32,7 +32,7 @@ fun SortingDrawerOptions(
     NavigationDrawerItem(
         label = {
             IconRow(
-                text = ShopListStrings.TIME,
+                text = ShopListStrings.STORE,
                 isChecked = storeSelected
             )
         },

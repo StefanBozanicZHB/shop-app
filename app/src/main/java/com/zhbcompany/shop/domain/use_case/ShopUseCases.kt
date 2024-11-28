@@ -1,7 +1,7 @@
 package com.zhbcompany.shop.domain.use_case
 
 import com.zhbcompany.shop.util.ShopUseCasesStrings
-import com.zhbcompany.shop.domain.model.ShopItem
+import com.zhbcompany.shop.domain.model.ShopItemDomain
 import com.zhbcompany.shop.domain.repo.ShopRepository
 import com.zhbcompany.shop.domain.util.InvalidShopItemException
 import com.zhbcompany.shop.domain.util.SortingDirection
@@ -11,29 +11,29 @@ import com.zhbcompany.shop.domain.util.ShopItemOrder
 class ShopUseCases(
     private val repo: ShopRepository
 ) {
-    suspend fun addShopItem(shopItem: ShopItem) {
-        if (shopItem.title.isBlank() || shopItem.description.isBlank()) {
+    suspend fun addShopItem(shopItemDomain: ShopItemDomain) {
+        if (shopItemDomain.title.isBlank() || shopItemDomain.description.isBlank()) {
             throw InvalidShopItemException(ShopUseCasesStrings.EMPTY_TITLE_OR_DESCRIPTION)
         }
-        repo.addShopItem(shopItem)
+        repo.addShopItem(shopItemDomain)
     }
 
-    suspend fun updateShopItem(shopItem: ShopItem) {
-        if (shopItem.title.isBlank() || shopItem.description.isBlank()) {
+    suspend fun updateShopItem(shopItemDomain: ShopItemDomain) {
+        if (shopItemDomain.title.isBlank() || shopItemDomain.description.isBlank()) {
             throw InvalidShopItemException(ShopUseCasesStrings.EMPTY_TITLE_OR_DESCRIPTION)
         }
-        repo.updateShopItem(shopItem)
+        repo.updateShopItem(shopItemDomain)
     }
 
-    suspend fun deleteShopItem(shopItem: ShopItem) {
-        repo.deleteShopItem(shopItem)
+    suspend fun deleteShopItem(shopItemDomain: ShopItemDomain) {
+        repo.deleteShopItem(shopItemDomain)
     }
 
-    suspend fun toggleCompleteShopItem(shopItem: ShopItem) {
-        repo.updateShopItem(shopItem.copy(completed = !shopItem.completed))
+    suspend fun toggleCompleteShopItem(shopItemDomain: ShopItemDomain) {
+        repo.updateShopItem(shopItemDomain.copy(completed = !shopItemDomain.completed))
     }
 
-    suspend fun getShopItemById(id: Int): ShopItem? {
+    suspend fun getShopItemById(id: Int): ShopItemDomain? {
         return repo.getShopItemById(id)
     }
 
@@ -65,6 +65,6 @@ class ShopUseCases(
 }
 
 sealed class ShopUseCaseResult {
-    data class Success(val shopItems: List<ShopItem>) : ShopUseCaseResult()
+    data class Success(val shopItemDomains: List<ShopItemDomain>) : ShopUseCaseResult()
     data class Error(val message: String) : ShopUseCaseResult()
 }

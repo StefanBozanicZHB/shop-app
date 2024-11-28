@@ -1,11 +1,11 @@
 package com.zhbcompany.shop.data.mapper
 
-import com.zhbcompany.shop.data.local.dto.LocalShopItem
-import com.zhbcompany.shop.data.remote.dto.RemoteShopItem
-import com.zhbcompany.shop.domain.model.ShopItem
+import com.zhbcompany.shop.data.local.dto.ShopItemLocal
+import com.zhbcompany.shop.data.remote.dto.ShopItemRemote
+import com.zhbcompany.shop.domain.model.ShopItemDomain
 
-fun ShopItem.toLocalShopItem(): LocalShopItem {
-    return LocalShopItem (
+fun ShopItemDomain.toLocalShopItem(): ShopItemLocal {
+    return ShopItemLocal (
         title = title,
         description = description,
         store = store,
@@ -14,8 +14,8 @@ fun ShopItem.toLocalShopItem(): LocalShopItem {
     )
 }
 
-fun ShopItem.toRemoteShopItem(): RemoteShopItem {
-    return RemoteShopItem (
+fun ShopItemDomain.toRemoteShopItem(): ShopItemRemote {
+    return ShopItemRemote (
         title = title,
         description = description,
         store = store,
@@ -24,8 +24,8 @@ fun ShopItem.toRemoteShopItem(): RemoteShopItem {
     )
 }
 
-fun LocalShopItem.toShopItem(): ShopItem {
-    return ShopItem (
+fun ShopItemLocal.toShopItem(): ShopItemDomain {
+    return ShopItemDomain (
         title = title,
         description = description,
         store = store,
@@ -34,8 +34,8 @@ fun LocalShopItem.toShopItem(): ShopItem {
     )
 }
 
-fun LocalShopItem.toRemoteShopItem(): RemoteShopItem {
-    return RemoteShopItem (
+fun ShopItemLocal.toRemoteShopItem(): ShopItemRemote {
+    return ShopItemRemote (
         title = title,
         description = description,
         store = store,
@@ -44,8 +44,8 @@ fun LocalShopItem.toRemoteShopItem(): RemoteShopItem {
     )
 }
 
-fun RemoteShopItem.toShopItem(): ShopItem {
-    return ShopItem (
+fun ShopItemRemote.toShopItem(): ShopItemDomain {
+    return ShopItemDomain (
         title = title,
         description = description,
         store = store,
@@ -54,8 +54,8 @@ fun RemoteShopItem.toShopItem(): ShopItem {
     )
 }
 
-fun RemoteShopItem.toLocalShopItem(): LocalShopItem {
-    return LocalShopItem (
+fun ShopItemRemote.toLocalShopItem(): ShopItemLocal {
+    return ShopItemLocal (
         title = title,
         description = description,
         store = store,
@@ -64,26 +64,26 @@ fun RemoteShopItem.toLocalShopItem(): LocalShopItem {
     )
 }
 
-fun List<ShopItem>.toLocalShopItems(): List<LocalShopItem> {
+fun List<ShopItemDomain>.toLocalShopItems(): List<ShopItemLocal> {
     return this.map { it.toLocalShopItem() }
 }
 
-fun List<ShopItem>.toRemoteShopItems(): List<RemoteShopItem> {
+fun List<ShopItemDomain>.toRemoteShopItems(): List<ShopItemRemote> {
     return this.map { it.toRemoteShopItem() }
 }
 
-fun List<LocalShopItem>.toRemoteShopItemsFromLocal(): List<RemoteShopItem> {
+fun List<ShopItemLocal>.toRemoteShopItemsFromLocal(): List<ShopItemRemote> {
     return this.map { it.toRemoteShopItem() }
 }
 
-fun List<LocalShopItem>.toShopItemsFromLocal(): List<ShopItem> {
+fun List<ShopItemLocal>.toShopItemsFromLocal(): List<ShopItemDomain> {
     return this.map { it.toShopItem() }
 }
 
-fun List<RemoteShopItem>.toShopItemsFromRemote(): List<ShopItem> {
+fun List<ShopItemRemote>.toShopItemsFromRemote(): List<ShopItemDomain> {
     return this.map { it.toShopItem() }
 }
 
-fun List<RemoteShopItem>.toLocalShopItemsFromRemote(): List<LocalShopItem> {
+fun List<ShopItemRemote>.toLocalShopItemsFromRemote(): List<ShopItemLocal> {
     return this.map { it.toLocalShopItem() }
 }

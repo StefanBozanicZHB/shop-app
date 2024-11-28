@@ -49,7 +49,7 @@ class ShopNewUpdateViewModel(
                     shopUseCases.getShopItemById(id)?.also { shopItem ->
                         currentShopId = id
                         _state.value = _state.value.copy(
-                            shopItem = shopItem,
+                            shopItemDomain = shopItem,
                             isLoading = false,
                             isTitleHintVisible = shopItem.title.isBlank(),
                             isDescriptionHintVisible = shopItem.description.isBlank()
@@ -76,7 +76,7 @@ class ShopNewUpdateViewModel(
 
             is ShopNewUpdateEvent.ChangedDescriptionFocus -> {
                 val shouldDescriptionHintBeVisible =
-                    !event.focusState.isFocused && _state.value.shopItem.description.isBlank()
+                    !event.focusState.isFocused && _state.value.shopItemDomain.description.isBlank()
                 _state.value = _state.value.copy(
                     isDescriptionHintVisible = shouldDescriptionHintBeVisible
                 )
@@ -84,7 +84,7 @@ class ShopNewUpdateViewModel(
 
             is ShopNewUpdateEvent.ChangedTitleFocus -> {
                 val shouldTitleHintBeVisible =
-                    !event.focusState.isFocused && _state.value.shopItem.title.isBlank()
+                    !event.focusState.isFocused && _state.value.shopItemDomain.title.isBlank()
                 _state.value = _state.value.copy(
                     isTitleHintVisible = shouldTitleHintBeVisible
                 )
@@ -93,7 +93,7 @@ class ShopNewUpdateViewModel(
             ShopNewUpdateEvent.Delete -> {
                 viewModelScope.launch(dispatcher + errorHandler) {
                     if (currentShopId != null) {
-                        shopUseCases.deleteShopItem(_state.value.shopItem)
+                        shopUseCases.deleteShopItem(_state.value.shopItemDomain)
                     }
                     _eventFlow.emit(UiEvent.Back)
                 }
@@ -101,7 +101,7 @@ class ShopNewUpdateViewModel(
 
             is ShopNewUpdateEvent.EnteredDescription -> {
                 _state.value = _state.value.copy(
-                    shopItem = _state.value.shopItem.copy(
+                    shopItemDomain = _state.value.shopItemDomain.copy(
                         description = event.value
                     )
                 )
@@ -109,7 +109,7 @@ class ShopNewUpdateViewModel(
 
             is ShopNewUpdateEvent.EnteredTitle -> {
                 _state.value = _state.value.copy(
-                    shopItem = _state.value.shopItem.copy(
+                    shopItemDomain = _state.value.shopItemDomain.copy(
                         title = event.value
                     )
                 )
@@ -119,10 +119,10 @@ class ShopNewUpdateViewModel(
                 viewModelScope.launch(dispatcher + errorHandler) {
                     try {
                         if (currentShopId != null) { // todo use enum instead
-                            shopUseCases.updateShopItem(_state.value.shopItem)
+                            shopUseCases.updateShopItem(_state.value.shopItemDomain)
                         } else {
                             shopUseCases.addShopItem(
-                                _state.value.shopItem.copy(
+                                _state.value.shopItemDomain.copy(
                                     id = null
                                 )
                             )
@@ -140,8 +140,8 @@ class ShopNewUpdateViewModel(
 
             ShopNewUpdateEvent.ToggleCompleted -> {
                 _state.value = _state.value.copy(
-                    shopItem = _state.value.shopItem.copy(
-                        completed = !_state.value.shopItem.completed
+                    shopItemDomain = _state.value.shopItemDomain.copy(
+                        completed = !_state.value.shopItemDomain.completed
                     )
                 )
             }

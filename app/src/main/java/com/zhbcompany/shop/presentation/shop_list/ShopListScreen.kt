@@ -179,9 +179,9 @@ fun ShopListScreen(
                                 .fillMaxSize()
                                 .padding(all = 4.dp)
                         ) {
-                            items(state.shopItems) { item ->
+                            items(state.shopItemDomains) { item ->
                                 ShopItemCard(
-                                    shopItem = item,
+                                    shopItemDomain = item,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(4.dp),

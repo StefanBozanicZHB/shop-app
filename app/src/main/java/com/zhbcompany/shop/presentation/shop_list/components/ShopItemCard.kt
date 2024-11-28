@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.zhbcompany.shop.domain.model.ShopItem
+import com.zhbcompany.shop.domain.model.ShopItemDomain
 import com.zhbcompany.shop.presentation.components.CompleteButton
 import com.zhbcompany.shop.presentation.components.DeleteButton
 import com.zhbcompany.shop.presentation.components.getShopColors
@@ -27,12 +27,12 @@ import com.zhbcompany.shop.ui.theme.ShopTheme
 @Composable
 fun ShopItemCard(
     modifier: Modifier = Modifier,
-    shopItem: ShopItem,
+    shopItemDomain: ShopItemDomain,
     onDeleteClick: () -> Unit,
     onCompleteClick: () -> Unit,
     onCardClick: () -> Unit,
 ) {
-    val shopItemColors = getShopColors(shopItem = shopItem)
+    val shopItemColors = getShopColors(shopItemDomain = shopItemDomain)
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -45,9 +45,9 @@ fun ShopItemCard(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CompleteButton(onCompleteClick, shopItemColors.checkColor, shopItem.completed)
+            CompleteButton(onCompleteClick, shopItemColors.checkColor, shopItemDomain.completed)
             Text(
-                text = shopItem.title,
+                text = shopItemDomain.title,
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = shopItemColors.textColor,
@@ -68,7 +68,7 @@ fun ShopItemCard(
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(
-                    text = shopItem.description,
+                    text = shopItemDomain.description,
                     style = MaterialTheme.typography.bodyLarge,
                     color = shopItemColors.textColor,
                     fontSize = 24.sp,
@@ -96,7 +96,7 @@ fun ShopItemCard(
 fun ShopItemCardPreview() {
     ShopTheme {
         ShopItemCard(
-            shopItem = ShopItem(
+            shopItemDomain = ShopItemDomain(
                 title = "Subscribe to my channel & like this video ",
                 description = "Keep learning Kotlin so that you can learn how to make really cool apps",
                 store = "Store 01",

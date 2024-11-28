@@ -61,7 +61,7 @@ fun ShopNewUpdateScreen(
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    val shopItemColors = getShopColors(shopItem = state.shopItem)
+    val shopItemColors = getShopColors(shopItemDomain = state.shopItemDomain)
 
     val configuration = LocalConfiguration.current
     val isPortrait =
@@ -166,7 +166,7 @@ fun ShopNewUpdateScreen(
                                 viewModel.onEvent(ShopNewUpdateEvent.ToggleCompleted)
                             },
                             color = shopItemColors.checkColor,
-                            completed = state.shopItem.completed
+                            completed = state.shopItemDomain.completed
                         )
                         DeleteButton(
                             onDeleteClick = {
@@ -225,7 +225,7 @@ fun ShopNewUpdateScreen(
                         .fillMaxSize()
                 ) {
                     HintTextField(
-                        text = state.shopItem.title,
+                        text = state.shopItemDomain.title,
                         hint = NewUpdateStrings.TITLE_HINT,
                         textColor = shopItemColors.textColor,
                         onValueChange = {
@@ -244,7 +244,7 @@ fun ShopNewUpdateScreen(
                     )
                     Spacer(modifier = Modifier.height(verticalPadding))
                     HintTextField(
-                        text = state.shopItem.description,
+                        text = state.shopItemDomain.description,
                         hint = NewUpdateStrings.DESCRIPTION_HINT,
                         textColor = shopItemColors.textColor,
                         onValueChange = {

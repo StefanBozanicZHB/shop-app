@@ -1,6 +1,6 @@
 package com.zhbcompany.shop.domain.model
 
-data class ShopItem(
+data class ShopItemDomain(
     val id: Int?,
     val title: String,
     val description: String,

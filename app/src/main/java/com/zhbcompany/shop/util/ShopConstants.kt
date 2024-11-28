@@ -8,7 +8,7 @@ object ShopUseCasesStrings {
 object ShopListStrings {
     const val SHOP_LIST = "Shop List"
     const val TITLE = "Title"
-    const val TIME = "Time"
+    const val STORE = "Store"
     const val COMPLETED = "Completed"
     const val SORT_UP = "Sort Up"
     const val SORT_DOWN = "Sort Down"

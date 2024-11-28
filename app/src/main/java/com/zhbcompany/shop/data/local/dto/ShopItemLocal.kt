@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "shop")
-data class LocalShopItem(
+data class ShopItemLocal(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
     val title: String,

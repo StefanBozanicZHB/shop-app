@@ -2,7 +2,7 @@ package com.zhbcompany.shop.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class RemoteShopItem(
+data class ShopItemRemote(
     @SerializedName("ID")
     val id: Int?,
 

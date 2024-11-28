@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zhbcompany.shop.domain.model.ShopItem
+import com.zhbcompany.shop.domain.model.ShopItemDomain
 import com.zhbcompany.shop.domain.use_case.ShopUseCaseResult
 import com.zhbcompany.shop.domain.use_case.ShopUseCases
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,7 +21,7 @@ class ShopListViewModel(
     private val _state = mutableStateOf(ShopListState())
     val state: State<ShopListState> = _state
 
-    private var undoShopItem: ShopItem? = null
+    private var undoShopItemDomain: ShopItemDomain? = null
 
     private var getShopItemsJob: Job? = null
 
@@ -40,7 +40,7 @@ class ShopListViewModel(
                 viewModelScope.launch(dispatcher + errorHandler) {
                     shopUseCases.deleteShopItem(event.item)
                     getShopItems()
-                    undoShopItem = event.item
+                    undoShopItemDomain = event.item
                 }
             }
 
@@ -62,15 +62,15 @@ class ShopListViewModel(
 
             is ShopListEvent.ToggleCompleted -> {
                 viewModelScope.launch(dispatcher + errorHandler) {
-                    shopUseCases.toggleCompleteShopItem(shopItem = event.item)
+                    shopUseCases.toggleCompleteShopItem(shopItemDomain = event.item)
                     getShopItems()
                 }
             }
 
             ShopListEvent.UndoDelete -> {
                 viewModelScope.launch(dispatcher + errorHandler) {
-                    shopUseCases.addShopItem(undoShopItem ?: return@launch)
-                    undoShopItem = null
+                    shopUseCases.addShopItem(undoShopItemDomain ?: return@launch)
+                    undoShopItemDomain = null
                     getShopItems()
                 }
             }
@@ -87,7 +87,7 @@ class ShopListViewModel(
             when (result) {
                 is ShopUseCaseResult.Success -> {
                     _state.value = _state.value.copy(
-                        shopItems = result.shopItems,
+                        shopItemDomains = result.shopItemDomains,
                         shopItemOrder = _state.value.shopItemOrder,
                         isLoading = false
                     )

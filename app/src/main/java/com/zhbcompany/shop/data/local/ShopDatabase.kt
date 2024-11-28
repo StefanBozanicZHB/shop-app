@@ -2,10 +2,10 @@ package com.zhbcompany.shop.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.zhbcompany.shop.data.local.dto.LocalShopItem
+import com.zhbcompany.shop.data.local.dto.ShopItemLocal
 
 @Database(
-    entities = [LocalShopItem::class],
+    entities = [ShopItemLocal::class],
     version = 1,
     exportSchema = false
 )
