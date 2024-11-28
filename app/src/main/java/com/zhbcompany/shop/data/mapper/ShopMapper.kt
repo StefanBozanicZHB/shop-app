@@ -8,8 +8,7 @@ fun ShopItem.toLocalShopItem(): LocalShopItem {
     return LocalShopItem (
         title = title,
         description = description,
-        timestamp = timestamp,
-        archived = archived,
+        store = store,
         id = id,
         completed = completed
     )
@@ -19,8 +18,7 @@ fun ShopItem.toRemoteShopItem(): RemoteShopItem {
     return RemoteShopItem (
         title = title,
         description = description,
-        timestamp = timestamp,
-        archived = archived,
+        store = store,
         id = id,
         completed = completed
     )
@@ -30,8 +28,7 @@ fun LocalShopItem.toShopItem(): ShopItem {
     return ShopItem (
         title = title,
         description = description,
-        timestamp = timestamp,
-        archived = archived,
+        store = store,
         id = id,
         completed = completed
     )
@@ -41,8 +38,7 @@ fun LocalShopItem.toRemoteShopItem(): RemoteShopItem {
     return RemoteShopItem (
         title = title,
         description = description,
-        timestamp = timestamp,
-        archived = archived,
+        store = store,
         id = id,
         completed = completed
     )
@@ -52,8 +48,7 @@ fun RemoteShopItem.toShopItem(): ShopItem {
     return ShopItem (
         title = title,
         description = description,
-        timestamp = timestamp,
-        archived = archived,
+        store = store,
         id = id,
         completed = completed
     )
@@ -63,8 +58,7 @@ fun RemoteShopItem.toLocalShopItem(): LocalShopItem {
     return LocalShopItem (
         title = title,
         description = description,
-        timestamp = timestamp,
-        archived = archived,
+        store = store,
         id = id,
         completed = completed
     )

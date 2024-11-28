@@ -6,7 +6,7 @@ import com.zhbcompany.shop.domain.util.ShopItemOrder
 
 data class ShopListState(
     val shopItems: List<ShopItem> = emptyList(),
-    val shopItemOrder: ShopItemOrder = ShopItemOrder.Time(SortingDirection.Down, true),
+    val shopItemOrder: ShopItemOrder = ShopItemOrder.Store(SortingDirection.Down),
     val isLoading: Boolean = true,
     val error: String? = null
 )

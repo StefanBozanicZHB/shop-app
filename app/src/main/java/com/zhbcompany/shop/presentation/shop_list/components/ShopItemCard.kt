@@ -18,11 +18,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.zhbcompany.shop.presentation.components.ArchiveButton
+import com.zhbcompany.shop.domain.model.ShopItem
 import com.zhbcompany.shop.presentation.components.CompleteButton
 import com.zhbcompany.shop.presentation.components.DeleteButton
 import com.zhbcompany.shop.presentation.components.getShopColors
-import com.zhbcompany.shop.domain.model.ShopItem
 import com.zhbcompany.shop.ui.theme.ShopTheme
 
 @Composable
@@ -31,7 +30,6 @@ fun ShopItemCard(
     shopItem: ShopItem,
     onDeleteClick: () -> Unit,
     onCompleteClick: () -> Unit,
-    onArchiveClick: () -> Unit,
     onCardClick: () -> Unit,
 ) {
     val shopItemColors = getShopColors(shopItem = shopItem)
@@ -87,7 +85,6 @@ fun ShopItemCard(
                     .weight(0.1f)
                     .padding(end = 4.dp)
             ) {
-                ArchiveButton(onArchiveClick = onArchiveClick)
                 DeleteButton(onDeleteClick = onDeleteClick)
             }
         }
@@ -102,14 +99,12 @@ fun ShopItemCardPreview() {
             shopItem = ShopItem(
                 title = "Subscribe to my channel & like this video ",
                 description = "Keep learning Kotlin so that you can learn how to make really cool apps",
-                timestamp = 11234565,
+                store = "Store 01",
                 completed = true,
-                archived = false,
                 id = 1
             ),
             onDeleteClick = {},
             onCompleteClick = {},
-            onArchiveClick = {},
             onCardClick = {},
         )
     }

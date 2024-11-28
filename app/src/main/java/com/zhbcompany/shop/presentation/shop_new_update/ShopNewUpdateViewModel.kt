@@ -123,7 +123,6 @@ class ShopNewUpdateViewModel(
                         } else {
                             shopUseCases.addShopItem(
                                 _state.value.shopItem.copy(
-                                    timestamp = System.currentTimeMillis(),
                                     id = null
                                 )
                             )
@@ -137,14 +136,6 @@ class ShopNewUpdateViewModel(
                         )
                     }
                 }
-            }
-
-            ShopNewUpdateEvent.ToggleArchived -> {
-                _state.value = _state.value.copy(
-                    shopItem = _state.value.shopItem.copy(
-                        archived = !_state.value.shopItem.archived
-                    )
-                )
             }
 
             ShopNewUpdateEvent.ToggleCompleted -> {

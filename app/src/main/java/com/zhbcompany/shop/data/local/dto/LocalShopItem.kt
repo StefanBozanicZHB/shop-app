@@ -9,7 +9,6 @@ data class LocalShopItem(
     val id: Int?,
     val title: String,
     val description: String,
-    val timestamp: Long,
+    val store: String,
     val completed: Boolean,
-    val archived: Boolean
 )

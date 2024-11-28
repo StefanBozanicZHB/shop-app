@@ -29,7 +29,6 @@ object NewUpdateStrings {
 object ContentDescription {
     const val DELETE_SHOP_ITEM = "Delete the shop item"
     const val COMPLETE_SHOP_ITEM = "Complete the shop item"
-    const val ARCHIVE_SHOP_ITEM = "Arrive the shop item"
     const val SELECTED = "Selected"
     const val ADD_SHOP_ITEM = "Add shop Item"
     const val SORTING_MENU = "Sorting Menu"

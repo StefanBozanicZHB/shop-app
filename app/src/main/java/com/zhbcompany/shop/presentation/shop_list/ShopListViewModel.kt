@@ -47,7 +47,6 @@ class ShopListViewModel(
             is ShopListEvent.Sort -> {
                 val stateOrderAlreadyMatchedEventOrder =
                     _state.value.shopItemOrder::class == event.shopItemOrder::class &&
-                            _state.value.shopItemOrder.showArchived == event.shopItemOrder.showArchived &&
                             _state.value.shopItemOrder.sortingDirection == event.shopItemOrder.sortingDirection
 
                 if (stateOrderAlreadyMatchedEventOrder) {
@@ -59,13 +58,6 @@ class ShopListViewModel(
                 )
 
                 getShopItems()
-            }
-
-            is ShopListEvent.ToggleArchived -> {
-                viewModelScope.launch(dispatcher + errorHandler) {
-                    shopUseCases.toggleArchiveShopItem(shopItem = event.item)
-                    getShopItems()
-                }
             }
 
             is ShopListEvent.ToggleCompleted -> {

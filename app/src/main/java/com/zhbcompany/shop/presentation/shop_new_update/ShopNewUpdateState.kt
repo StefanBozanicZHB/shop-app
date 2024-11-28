@@ -9,9 +9,8 @@ data class ShopNewUpdateState(
     val shopItem: ShopItem = ShopItem(
         title = "",
         description = "",
-        timestamp = 0,
+        store = "",
         completed = false,
-        archived = false,
         id = null
     ),
     val isLoading: Boolean = true,

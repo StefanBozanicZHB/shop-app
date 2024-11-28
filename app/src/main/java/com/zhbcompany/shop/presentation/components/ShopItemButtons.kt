@@ -59,25 +59,6 @@ fun EmptyCircle(color: Color, strokeWidth: Float = 9f) {
 }
 
 @Composable
-fun ArchiveButton(
-    modifier: Modifier = Modifier,
-    onArchiveClick: () -> Unit,
-    color: Color = MaterialTheme.colorScheme.secondary,
-) {
-    IconButton(
-        onClick = onArchiveClick,
-        modifier = modifier
-    ) {
-        Icon(
-            imageVector = Icons.Default.Warning,
-            contentDescription = ContentDescription.ARCHIVE_SHOP_ITEM,
-            tint = color,
-            modifier = Modifier.size(32.dp)
-        )
-    }
-}
-
-@Composable
 fun DeleteButton(
     modifier: Modifier = Modifier,
     onDeleteClick: () -> Unit,

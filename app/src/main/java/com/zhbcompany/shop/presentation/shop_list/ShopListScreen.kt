@@ -200,9 +200,6 @@ fun ShopListScreen(
                                     onCompleteClick = {
                                         viewModel.onEvent(ShopListEvent.ToggleCompleted(item))
                                     },
-                                    onArchiveClick = {
-                                        viewModel.onEvent(ShopListEvent.ToggleArchived(item))
-                                    },
                                     onCardClick = {
                                         navController.navigate(
                                             Screen.ShopNewUpdateScreen.route + "?shopId=${item.id}"

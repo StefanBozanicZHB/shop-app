@@ -9,7 +9,6 @@ sealed class ShopNewUpdateEvent {
     data class ChangedDescriptionFocus(val focusState: FocusState) : ShopNewUpdateEvent()
     object Delete: ShopNewUpdateEvent()
     object ToggleCompleted: ShopNewUpdateEvent()
-    object ToggleArchived: ShopNewUpdateEvent()
     object SaveShop: ShopNewUpdateEvent()
     object Back: ShopNewUpdateEvent()
 }

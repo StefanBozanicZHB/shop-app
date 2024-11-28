@@ -23,29 +23,23 @@ fun SortingDrawerOptions(
         selected = false,
         onClick = {
             onOrderChange(
-                ShopItemOrder.Title(
-                    shopItemOrder.sortingDirection,
-                    shopItemOrder.showArchived
-                )
+                ShopItemOrder.Title(shopItemOrder.sortingDirection)
             )
         }
     )
 
-    val timeSelected = shopItemOrder::class == ShopItemOrder.Time::class
+    val storeSelected = shopItemOrder::class == ShopItemOrder.Store::class
     NavigationDrawerItem(
         label = {
             IconRow(
                 text = ShopListStrings.TIME,
-                isChecked = timeSelected
+                isChecked = storeSelected
             )
         },
         selected = false,
         onClick = {
             onOrderChange(
-                ShopItemOrder.Time(
-                    shopItemOrder.sortingDirection,
-                    shopItemOrder.showArchived
-                )
+                ShopItemOrder.Store(shopItemOrder.sortingDirection)
             )
         }
     )
@@ -61,10 +55,7 @@ fun SortingDrawerOptions(
         selected = false,
         onClick = {
             onOrderChange(
-                ShopItemOrder.Completed(
-                    shopItemOrder.sortingDirection,
-                    shopItemOrder.showArchived
-                )
+                ShopItemOrder.Completed(shopItemOrder.sortingDirection)
             )
         }
     )
@@ -82,7 +73,7 @@ fun SortingDrawerOptions(
         selected = false,
         onClick = {
             onOrderChange(
-                shopItemOrder.copy(SortingDirection.Down, shopItemOrder.showArchived)
+                shopItemOrder.copy(SortingDirection.Down)
             )
         }
     )
@@ -98,24 +89,7 @@ fun SortingDrawerOptions(
         selected = false,
         onClick = {
             onOrderChange(
-                shopItemOrder.copy(SortingDirection.Up, shopItemOrder.showArchived)
-            )
-        }
-    )
-
-    HorizontalDivider()
-
-    NavigationDrawerItem(
-        label = {
-            IconRow(
-                text = ShopListStrings.SHOW_ARCHIVED,
-                isChecked = shopItemOrder.showArchived
-            )
-        },
-        selected = false,
-        onClick = {
-            onOrderChange(
-                shopItemOrder.copy(shopItemOrder.sortingDirection, !shopItemOrder.showArchived)
+                shopItemOrder.copy(SortingDirection.Up)
             )
         }
     )

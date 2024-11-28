@@ -2,22 +2,18 @@ package com.zhbcompany.shop.domain.util
 
 sealed class ShopItemOrder(
     val sortingDirection: SortingDirection,
-    val showArchived: Boolean
 ) {
-    class Title(sortingDirection: SortingDirection, showArchived: Boolean) :
-        ShopItemOrder(sortingDirection, showArchived)
+    class Title(sortingDirection: SortingDirection) : ShopItemOrder(sortingDirection)
 
-    class Time(sortingDirection: SortingDirection, showArchived: Boolean) :
-        ShopItemOrder(sortingDirection, showArchived)
+    class Store(sortingDirection: SortingDirection) : ShopItemOrder(sortingDirection)
 
-    class Completed(sortingDirection: SortingDirection, showArchived: Boolean) :
-        ShopItemOrder(sortingDirection, showArchived)
+    class Completed(sortingDirection: SortingDirection) : ShopItemOrder(sortingDirection)
 
-    fun copy(sortingDirection: SortingDirection, showArchived: Boolean): ShopItemOrder {
+    fun copy(sortingDirection: SortingDirection): ShopItemOrder {
         return when (this) {
-            is Title -> Title(sortingDirection, showArchived)
-            is Time -> Time(sortingDirection, showArchived)
-            is Completed -> Completed(sortingDirection, showArchived)
+            is Title -> Title(sortingDirection)
+            is Store -> Store(sortingDirection)
+            is Completed -> Completed(sortingDirection)
         }
     }
 }

@@ -12,12 +12,9 @@ data class RemoteShopItem(
     @SerializedName("Description")
     val description: String,
 
-    @SerializedName("Timestamp")
-    val timestamp: Long,
+    @SerializedName("Store")
+    val store: String,
 
     @SerializedName("Completed")
     val completed: Boolean,
-
-    @SerializedName("Archived")
-    val archived: Boolean
 )

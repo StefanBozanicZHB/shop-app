@@ -41,7 +41,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.zhbcompany.shop.presentation.components.ArchiveButton
 import com.zhbcompany.shop.presentation.components.CompleteButton
 import com.zhbcompany.shop.presentation.components.DeleteButton
 import com.zhbcompany.shop.presentation.components.getShopColors
@@ -168,11 +167,6 @@ fun ShopNewUpdateScreen(
                             },
                             color = shopItemColors.checkColor,
                             completed = state.shopItem.completed
-                        )
-                        ArchiveButton(
-                            onArchiveClick = {
-                                viewModel.onEvent(ShopNewUpdateEvent.ToggleArchived)
-                            }
                         )
                         DeleteButton(
                             onDeleteClick = {

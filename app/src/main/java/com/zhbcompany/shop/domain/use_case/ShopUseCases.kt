@@ -33,40 +33,30 @@ class ShopUseCases(
         repo.updateShopItem(shopItem.copy(completed = !shopItem.completed))
     }
 
-    suspend fun toggleArchiveShopItem(shopItem: ShopItem) {
-        repo.updateShopItem(shopItem.copy(archived = !shopItem.archived))
-    }
-
     suspend fun getShopItemById(id: Int): ShopItem? {
         return repo.getShopItemById(id)
     }
 
     suspend fun getShopItems(
-        shopItemOrder: ShopItemOrder = ShopItemOrder.Time(SortingDirection.Down, true)
+        shopItemOrder: ShopItemOrder = ShopItemOrder.Store(SortingDirection.Down)
     ): ShopUseCaseResult {
         // todo change this logic
         val shopItems = repo.getAllShopItems()
 
-        val filteredShopItems = if (shopItemOrder.showArchived) {
-            shopItems
-        } else {
-            shopItems.filter { !it.archived }
-        }
-
         return when (shopItemOrder.sortingDirection) {
             is SortingDirection.Down -> {
                 when (shopItemOrder) {
-                    is ShopItemOrder.Title -> ShopUseCaseResult.Success(filteredShopItems.sortedByDescending { it.title.lowercase() })
-                    is ShopItemOrder.Time -> ShopUseCaseResult.Success(filteredShopItems.sortedByDescending { it.timestamp })
-                    is ShopItemOrder.Completed -> ShopUseCaseResult.Success(filteredShopItems.sortedByDescending { it.completed })
+                    is ShopItemOrder.Title -> ShopUseCaseResult.Success(shopItems.sortedByDescending { it.title.lowercase() })
+                    is ShopItemOrder.Store -> ShopUseCaseResult.Success(shopItems.sortedByDescending { it.store })
+                    is ShopItemOrder.Completed -> ShopUseCaseResult.Success(shopItems.sortedByDescending { it.completed })
                 }
             }
 
             is SortingDirection.Up -> {
                 when (shopItemOrder) {
-                    is ShopItemOrder.Title -> ShopUseCaseResult.Success(filteredShopItems.sortedBy { it.title.lowercase() })
-                    is ShopItemOrder.Time -> ShopUseCaseResult.Success(filteredShopItems.sortedBy { it.timestamp })
-                    is ShopItemOrder.Completed -> ShopUseCaseResult.Success(filteredShopItems.sortedBy { it.completed })
+                    is ShopItemOrder.Title -> ShopUseCaseResult.Success(shopItems.sortedBy { it.title.lowercase() })
+                    is ShopItemOrder.Store -> ShopUseCaseResult.Success(shopItems.sortedBy { it.store })
+                    is ShopItemOrder.Completed -> ShopUseCaseResult.Success(shopItems.sortedBy { it.completed })
                 }
             }
         }
