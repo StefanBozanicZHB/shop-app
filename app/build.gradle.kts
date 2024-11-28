@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.zhbcompany.todo"
+    namespace = "com.zhbcompany.shop"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.zhbcompany.todo"
+        applicationId = "com.zhbcompany.shop"
         minSdk = 30
         targetSdk = 34
         versionCode = 1
