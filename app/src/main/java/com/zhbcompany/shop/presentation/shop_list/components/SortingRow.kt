@@ -11,8 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import com.zhbcompany.shop.util.ContentDescription
+import com.zhbcompany.shop.R
 
 @Composable
 fun IconRow(
@@ -33,7 +34,7 @@ fun IconRow(
         if (isChecked) {
             Icon(
                 imageVector = Icons.Default.Check,
-                contentDescription = ContentDescription.SELECTED,
+                contentDescription = stringResource(id = R.string.selected),
                 tint = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }

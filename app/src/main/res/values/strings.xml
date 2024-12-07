@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">Shop</string>
+    <string name="app_name">Shop App</string>
+    <string name="shop_list">Shop List</string>
+    <string name="title">Title</string>
+    <string name="store">Store</string>
+    <string name="completed">Completed</string>
+    <string name="sort_up">Sort Up</string>
+    <string name="sort_down">Sort Down</string>
+    <string name="sort_by">Sort By</string>
+    <string name="shop_item_deleted">Item has been deleted</string>
+    <string name="undo">Undo</string>
+    <string name="delete_shop_item">Delete the item</string>
+    <string name="complete_shop_item">Complete the item</string>
+    <string name="selected">Selected</string>
+    <string name="add_shop_item">Add Item</string>
+    <string name="update_shop_item">Update Item</string>
+    <string name="sorting_menu">Sorting Menu</string>
+    <string name="background_image">Background Image</string>
+    <string name="loading_indicator">Loading</string>
+    <string name="title_is_required">Title is required</string>
+    <string name="description">Description</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 </resources>

@@ -1,26 +1,25 @@
 package com.zhbcompany.shop.domain.use_case
 
-import com.zhbcompany.shop.util.ShopUseCasesStrings
 import com.zhbcompany.shop.domain.model.ShopItemDomain
 import com.zhbcompany.shop.domain.repo.ShopRepository
-import com.zhbcompany.shop.domain.util.InvalidShopItemException
-import com.zhbcompany.shop.domain.util.SortingDirection
+import com.zhbcompany.shop.domain.util.InvalidShopItemEmptyTitleException
 import com.zhbcompany.shop.domain.util.ShopItemOrder
+import com.zhbcompany.shop.domain.util.SortingDirection
 
 // todo separate in separate class
 class ShopUseCases(
     private val repo: ShopRepository
 ) {
     suspend fun addShopItem(shopItemDomain: ShopItemDomain) {
-        if (shopItemDomain.title.isBlank() || shopItemDomain.description.isBlank()) {
-            throw InvalidShopItemException(ShopUseCasesStrings.EMPTY_TITLE_OR_DESCRIPTION)
+        if (shopItemDomain.title.isBlank()) {
+            throw InvalidShopItemEmptyTitleException()
         }
         repo.addShopItem(shopItemDomain)
     }
 
     suspend fun updateShopItem(shopItemDomain: ShopItemDomain) {
-        if (shopItemDomain.title.isBlank() || shopItemDomain.description.isBlank()) {
-            throw InvalidShopItemException(ShopUseCasesStrings.EMPTY_TITLE_OR_DESCRIPTION)
+        if (shopItemDomain.title.isBlank()) {
+            throw InvalidShopItemEmptyTitleException()
         }
         repo.updateShopItem(shopItemDomain)
     }
@@ -31,10 +30,6 @@ class ShopUseCases(
 
     suspend fun toggleCompleteShopItem(shopItemDomain: ShopItemDomain) {
         repo.updateShopItem(shopItemDomain.copy(completed = !shopItemDomain.completed))
-    }
-
-    suspend fun getShopItemById(id: Int): ShopItemDomain? {
-        return repo.getShopItemById(id)
     }
 
     suspend fun getShopItems(

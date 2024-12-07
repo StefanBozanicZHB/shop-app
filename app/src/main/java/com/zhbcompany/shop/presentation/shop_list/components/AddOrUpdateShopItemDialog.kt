@@ -19,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.zhbcompany.shop.R
 import com.zhbcompany.shop.domain.model.ShopItemDomain
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +47,11 @@ fun AddOrUpdateShopItemDialog(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = if (shopItemDomain.id == null) "Add Model" else "Update Model",
+                    text = if (shopItemDomain.id == null) {
+                        stringResource(id = R.string.add_shop_item)
+                    } else {
+                        stringResource(id = R.string.update_shop_item)
+                    },
                     style = MaterialTheme.typography.headlineMedium
                 )
 
@@ -57,12 +63,12 @@ fun AddOrUpdateShopItemDialog(
                         title.value = it
                         isTitleError.value = it.isBlank()
                     },
-                    label = { Text("Title") },
+                    label = { Text(stringResource(id = R.string.title)) },
                     modifier = Modifier.fillMaxWidth()
                 )
                 if (isTitleError.value) {
                     Text(
-                        text = "Title is required",
+                        text = stringResource(id = R.string.title_is_required),
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.padding(start = 8.dp, top = 4.dp)
@@ -74,7 +80,7 @@ fun AddOrUpdateShopItemDialog(
                 OutlinedTextField(
                     value = description.value,
                     onValueChange = { description.value = it },
-                    label = { Text("Description") },
+                    label = { Text(text = stringResource(id = R.string.description)) },
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -83,7 +89,7 @@ fun AddOrUpdateShopItemDialog(
                 OutlinedTextField(
                     value = store.value,
                     onValueChange = { store.value = it },
-                    label = { Text("Store") },
+                    label = { Text(stringResource(id = R.string.store)) },
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -94,12 +100,12 @@ fun AddOrUpdateShopItemDialog(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     TextButton(onClick = onDismiss) {
-                        Text("Cancel")
+                        Text(stringResource(id = R.string.cancel))
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         onClick = {
-                            if(title.value.isBlank()) {
+                            if (title.value.isBlank()) {
                                 isTitleError.value = true
                             } else {
                                 onSave(
@@ -113,7 +119,7 @@ fun AddOrUpdateShopItemDialog(
                             }
                         }
                     ) {
-                        Text("Save")
+                        Text(stringResource(id = R.string.save))
                     }
                 }
             }

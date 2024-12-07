@@ -44,7 +44,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,8 +57,6 @@ import com.zhbcompany.shop.domain.model.emptyShopItem
 import com.zhbcompany.shop.presentation.shop_list.components.AddOrUpdateShopItemDialog
 import com.zhbcompany.shop.presentation.shop_list.components.ShopItemCard
 import com.zhbcompany.shop.presentation.shop_list.components.SortingDrawerOptions
-import com.zhbcompany.shop.util.ContentDescription
-import com.zhbcompany.shop.util.ShopListStrings
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,6 +69,7 @@ fun ShopListScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val isDialogVisible = remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     val configuration = LocalConfiguration.current
     val isPortrait =
@@ -91,7 +92,7 @@ fun ShopListScreen(
             Box(modifier = Modifier.fillMaxWidth(0.65f)) {
                 ModalDrawerSheet {
                     Text(
-                        text = ShopListStrings.SORT_BY,
+                        text = stringResource(id = R.string.sort_by),
                         modifier = Modifier.padding(16.dp),
                         fontSize = 34.sp,
                         lineHeight = 38.sp
@@ -119,7 +120,7 @@ fun ShopListScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = ContentDescription.ADD_SHOP_ITEM,
+                        contentDescription = stringResource(id = R.string.add_shop_item),
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
@@ -128,7 +129,7 @@ fun ShopListScreen(
                 CenterAlignedTopAppBar(
                     title = {
                         Text(
-                            text = ShopListStrings.SHOP_LIST,
+                            text = stringResource(id = R.string.shop_list),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.headlineLarge,
@@ -151,7 +152,7 @@ fun ShopListScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Menu,
-                                contentDescription = ContentDescription.SORTING_MENU
+                                contentDescription = stringResource(id = R.string.sorting_menu)
                             )
                         }
                     },
@@ -169,7 +170,7 @@ fun ShopListScreen(
                 ) {
                     Image(
                         painter = painterResource(id = backgroundImage),
-                        contentDescription = ContentDescription.BACKGROUND_IMAGE,
+                        contentDescription = stringResource(id = R.string.background_image),
                         contentScale = ContentScale.FillWidth,
                         modifier = Modifier.fillMaxSize(),
                         alignment = Alignment.TopStart
@@ -192,8 +193,8 @@ fun ShopListScreen(
                                         viewModel.onEvent(ShopListEvent.Delete(item))
                                         scope.launch {
                                             val undo = snackBarHostState.showSnackbar(
-                                                message = ShopListStrings.SHOP_ITEM_DELETED,
-                                                actionLabel = ShopListStrings.UNDO
+                                                message = context.getString(R.string.shop_item_deleted),
+                                                actionLabel = context.getString(R.string.undo)
                                             )
                                             if (undo == SnackbarResult.ActionPerformed) {
                                                 viewModel.onEvent(ShopListEvent.UndoDelete)
@@ -219,7 +220,7 @@ fun ShopListScreen(
                         ) {
                             CircularProgressIndicator(
                                 Modifier.semantics {
-                                    this.contentDescription = ContentDescription.LOADING_INDICATOR
+                                    this.contentDescription = context.getString(R.string.loading_indicator)
                                 }
                             )
                         }

@@ -3,7 +3,8 @@ package com.zhbcompany.shop.presentation.shop_list.components
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.runtime.Composable
-import com.zhbcompany.shop.util.ShopListStrings
+import androidx.compose.ui.res.stringResource
+import com.zhbcompany.shop.R
 import com.zhbcompany.shop.domain.util.SortingDirection
 import com.zhbcompany.shop.domain.util.ShopItemOrder
 
@@ -16,7 +17,7 @@ fun SortingDrawerOptions(
     NavigationDrawerItem(
         label = {
             IconRow(
-                text = ShopListStrings.TITLE,
+                text = stringResource(id = R.string.title),
                 isChecked = titleSelected
             )
         },
@@ -32,7 +33,7 @@ fun SortingDrawerOptions(
     NavigationDrawerItem(
         label = {
             IconRow(
-                text = ShopListStrings.STORE,
+                text = stringResource(id = R.string.store),
                 isChecked = storeSelected
             )
         },
@@ -48,7 +49,7 @@ fun SortingDrawerOptions(
     NavigationDrawerItem(
         label = {
             IconRow(
-                text = ShopListStrings.COMPLETED,
+                text = stringResource(id = R.string.completed),
                 isChecked = completedSelected
             )
         },
@@ -66,7 +67,7 @@ fun SortingDrawerOptions(
     NavigationDrawerItem(
         label = {
             IconRow(
-                text = ShopListStrings.SORT_DOWN,
+                text = stringResource(id = R.string.sort_down),
                 isChecked = sortDownSelected
             )
         },
@@ -82,7 +83,7 @@ fun SortingDrawerOptions(
     NavigationDrawerItem(
         label = {
             IconRow(
-                text = ShopListStrings.SORT_UP,
+                text = stringResource(id = R.string.sort_up),
                 isChecked = sortUpSelected
             )
         },
