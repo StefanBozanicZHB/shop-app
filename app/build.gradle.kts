@@ -72,6 +72,5 @@ dependencies {
     implementation(libs.retrofit.gson.converter)
     implementation(libs.gson)
 
-    implementation(libs.androidx.navigation.compose)
-
+    implementation(libs.ui.tooling)
 }

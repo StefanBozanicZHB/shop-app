@@ -7,3 +7,11 @@ data class ShopItemDomain(
     val store: String,
     val completed: Boolean,
 )
+
+val emptyShopItem = ShopItemDomain(
+    id = null,
+    title = "",
+    description = "",
+    store = "",
+    completed = false,
+)

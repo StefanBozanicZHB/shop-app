@@ -1,5 +1,6 @@
 package com.zhbcompany.shop.presentation.shop_list
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -48,25 +50,25 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.zhbcompany.shop.R
+import com.zhbcompany.shop.domain.model.emptyShopItem
+import com.zhbcompany.shop.presentation.shop_list.components.AddOrUpdateShopItemDialog
+import com.zhbcompany.shop.presentation.shop_list.components.ShopItemCard
+import com.zhbcompany.shop.presentation.shop_list.components.SortingDrawerOptions
 import com.zhbcompany.shop.util.ContentDescription
 import com.zhbcompany.shop.util.ShopListStrings
-import com.zhbcompany.shop.presentation.shop_list.components.SortingDrawerOptions
-import com.zhbcompany.shop.presentation.shop_list.components.ShopItemCard
-import com.zhbcompany.shop.presentation.util.Screen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShopListScreen(
-    navController: NavController,
     viewModel: ShopListViewModel
 ) {
     val state = viewModel.state.value
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val isDialogVisible = remember { mutableStateOf(false) }
 
     val configuration = LocalConfiguration.current
     val isPortrait =
@@ -109,7 +111,8 @@ fun ShopListScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        navController.navigate(Screen.ShopNewUpdateScreen.route)
+                        viewModel.currentShopItem = emptyShopItem
+                        isDialogVisible.value = true
                     },
                     shape = CircleShape,
                     containerColor = MaterialTheme.colorScheme.primary
@@ -155,7 +158,7 @@ fun ShopListScreen(
                     scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
                 )
             },
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+            snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
         ) { padding ->
             Surface(modifier = Modifier.padding(padding)) {
                 Box(
@@ -188,7 +191,7 @@ fun ShopListScreen(
                                     onDeleteClick = {
                                         viewModel.onEvent(ShopListEvent.Delete(item))
                                         scope.launch {
-                                            val undo = snackbarHostState.showSnackbar(
+                                            val undo = snackBarHostState.showSnackbar(
                                                 message = ShopListStrings.SHOP_ITEM_DELETED,
                                                 actionLabel = ShopListStrings.UNDO
                                             )
@@ -201,9 +204,8 @@ fun ShopListScreen(
                                         viewModel.onEvent(ShopListEvent.ToggleCompleted(item))
                                     },
                                     onCardClick = {
-                                        navController.navigate(
-                                            Screen.ShopNewUpdateScreen.route + "?shopId=${item.id}"
-                                        )
+                                        viewModel.currentShopItem = item
+                                        isDialogVisible.value = true
                                     }
                                 )
                             }
@@ -238,5 +240,15 @@ fun ShopListScreen(
                 }
             }
         }
+
+        AddOrUpdateShopItemDialog(
+            isVisible = isDialogVisible.value,
+            shopItemDomain = viewModel.currentShopItem,
+            onDismiss = { isDialogVisible.value = false },
+            onSave = { shopItem ->
+                viewModel.saveShopItem(shopItem)
+                Log.d("ZHB", shopItem.toString())
+            }
+        )
     }
 }

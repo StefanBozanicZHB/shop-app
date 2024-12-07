@@ -9,14 +9,13 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.3"
 composeBom = "2024.04.01"
-navigationVersion = "2.8.3"
 retrofitVersion = "2.9.0"
 roomCompiler = "2.6.1"
 gsonVersion = "2.11.0"
+uiTooling = "1.7.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationVersion" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCompiler" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
@@ -37,6 +36,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndr
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 retrofit-gson-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "gsonVersion"}
 gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
+ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

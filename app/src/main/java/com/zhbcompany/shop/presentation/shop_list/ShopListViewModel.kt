@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zhbcompany.shop.domain.model.ShopItemDomain
+import com.zhbcompany.shop.domain.model.emptyShopItem
 import com.zhbcompany.shop.domain.use_case.ShopUseCaseResult
 import com.zhbcompany.shop.domain.use_case.ShopUseCases
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,6 +25,8 @@ class ShopListViewModel(
     private var undoShopItemDomain: ShopItemDomain? = null
 
     private var getShopItemsJob: Job? = null
+
+    var currentShopItem: ShopItemDomain = emptyShopItem
 
     // todo how to use CoroutineExceptionHandler
     private val errorHandler = CoroutineExceptionHandler { _, e ->
@@ -99,6 +102,25 @@ class ShopListViewModel(
                         isLoading = false
                     )
                 }
+            }
+        }
+    }
+
+    fun saveShopItem(shopItem: ShopItemDomain) {
+        viewModelScope.launch(dispatcher + errorHandler) {
+            try {
+                if (shopItem.id != null) {
+                    shopUseCases.updateShopItem(shopItem)
+                } else {
+                    shopUseCases.addShopItem(shopItem)
+                }
+//                _eventFlow.emit(UiEvent.SaveShop)
+            } catch (e: Exception) {
+//                _eventFlow.emit(
+//                    UiEvent.ShowSnackbar(
+//                        message = e.message ?: NewUpdateStrings.SAVE_ERROR
+//                    )
+//                )
             }
         }
     }
