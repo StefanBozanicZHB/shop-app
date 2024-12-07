@@ -1,7 +1,6 @@
 package com.zhbcompany.shop.presentation.shop_list
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,10 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -71,17 +67,6 @@ fun ShopListScreen(
     val isDialogVisible = remember { mutableStateOf(false) }
     val context = LocalContext.current
 
-    val configuration = LocalConfiguration.current
-    val isPortrait =
-        configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
-
-    val backgroundImage = if (isPortrait) {
-        R.drawable.background_portrait
-    } else {
-        R.drawable.background_landscape
-    }
-
-    // do refresh when items change
     LaunchedEffect(key1 = true) {
         viewModel.getShopItems()
     }
@@ -168,13 +153,6 @@ fun ShopListScreen(
                         .fillMaxSize()
                         .background(color = MaterialTheme.colorScheme.background)
                 ) {
-                    Image(
-                        painter = painterResource(id = backgroundImage),
-                        contentDescription = stringResource(id = R.string.background_image),
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.fillMaxSize(),
-                        alignment = Alignment.TopStart
-                    )
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
