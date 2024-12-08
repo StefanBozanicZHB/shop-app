@@ -10,16 +10,16 @@ import retrofit2.http.Path
 
 interface ShopApi {
     @GET("shop.json")
-    suspend fun getAllShopItems(): List<ShopItemRemote>
+    suspend fun getAllShopItem(): List<ShopItemRemote>
 
-//    @GET("shop.json?orderBy=\"ID\"")
-//    suspend fun getShopItemById(@Query("equalTo") id: Int): Map<String, RemoteShopItem>
+    @GET("shop.json")
+    suspend fun getAllShopItems(): Map<String, ShopItemRemote>
 
-//    @POST("shop.json")
-//    suspend fun addShopItem(@Body url: String, @Body updatedShopItem: RemoteShopItem): Response<Unit>
-
-    @PUT
-    suspend fun addShopItem(@Body url: String, @Body updatedShopItem: ShopItemRemote): Response<Unit>
+    @PUT("{url}")
+    suspend fun addShopItem(
+        @Path("url") url: String,
+        @Body updatedShopItem: ShopItemRemote
+    ): Response<Unit>
 
     @DELETE("shop/{id}.json")
     suspend fun deleteShopItem(@Path("id") id: Int?): Response<Unit>

@@ -2,6 +2,7 @@ package com.zhbcompany.shop.di
 
 import android.content.Context
 import androidx.room.Room
+import com.zhbcompany.shop.data.cache.ShopCache
 import com.zhbcompany.shop.data.local.ShopDao
 import com.zhbcompany.shop.data.local.ShopDatabase
 import com.zhbcompany.shop.data.remote.ShopApi
@@ -42,8 +43,13 @@ private fun provideRetrofitApi(retrofit: Retrofit): ShopApi {
     return retrofit.create(ShopApi::class.java)
 }
 
-private fun provideShopRepo(db: ShopDatabase, api: ShopApi, dispatcher: CoroutineDispatcher): ShopRepository {
-    return ShopRepositoryImpl(db.dao, api, dispatcher)
+private fun provideShopRepo(
+    db: ShopDatabase,
+    api: ShopApi,
+    cache: ShopCache,
+    dispatcher: CoroutineDispatcher
+): ShopRepository {
+    return ShopRepositoryImpl(db.dao, api, cache, dispatcher)
 }
 
 val dataModule: Module = module {
@@ -51,5 +57,6 @@ val dataModule: Module = module {
     single { provideShopDao(get()) }
     single { provideRetrofit() }
     single { provideRetrofitApi(get()) }
-    single { provideShopRepo(get(), get(), get(named("IoDispatcher"))) }
+    single { ShopCache() }
+    single { provideShopRepo(get(), get(), get(), get(named("IoDispatcher"))) }
 }
