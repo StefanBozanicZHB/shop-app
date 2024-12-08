@@ -8,21 +8,39 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.LocationOn
+import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.zhbcompany.shop.R
 import com.zhbcompany.shop.domain.model.ShopItemDomain
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,36 +54,38 @@ fun AddOrUpdateShopItemDialog(
         ModalBottomSheet(
             onDismissRequest = onDismiss
         ) {
-            val title = remember { mutableStateOf(shopItemDomain.title) }
-            val description = remember { mutableStateOf(shopItemDomain.description) }
-            val store = remember { mutableStateOf(shopItemDomain.store) }
+            val focusRequester = remember { FocusRequester() }
+
             val isTitleError = remember { mutableStateOf(false) }
+            val title = remember {
+                mutableStateOf(TextFieldValue(shopItemDomain.title, TextRange(shopItemDomain.title.length)))
+            }
+            val description = remember {
+                mutableStateOf(TextFieldValue(shopItemDomain.description, TextRange(shopItemDomain.description.length)))
+            }
+            val store = remember {
+                mutableStateOf(TextFieldValue(shopItemDomain.store, TextRange(shopItemDomain.store.length)))
+            }
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Text(
-                    text = if (shopItemDomain.id == null) {
-                        stringResource(id = R.string.add_shop_item)
-                    } else {
-                        stringResource(id = R.string.update_shop_item)
-                    },
-                    style = MaterialTheme.typography.headlineMedium
-                )
+                InputField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester),
+                    valueState = title.value,
+                    labelId = stringResource(id = R.string.title),
+                    enabled = true,
+                    isSingleLine = true,
+                    icon = Icons.Rounded.ShoppingCart
+                ) {
+                    title.value = it
+                    isTitleError.value = it.text.isBlank()
+                }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                OutlinedTextField(
-                    value = title.value,
-                    onValueChange = {
-                        title.value = it
-                        isTitleError.value = it.isBlank()
-                    },
-                    label = { Text(stringResource(id = R.string.title)) },
-                    modifier = Modifier.fillMaxWidth()
-                )
                 if (isTitleError.value) {
                     Text(
                         text = stringResource(id = R.string.title_is_required),
@@ -77,21 +97,44 @@ fun AddOrUpdateShopItemDialog(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                OutlinedTextField(
-                    value = description.value,
-                    onValueChange = { description.value = it },
-                    label = { Text(text = stringResource(id = R.string.description)) },
-                    modifier = Modifier.fillMaxWidth()
-                )
+                InputField(
+                    valueState = description.value,
+                    labelId = stringResource(id = R.string.description),
+                    enabled = true,
+                    isSingleLine = false,
+                    icon = Icons.Rounded.Info
+                ) {
+                    description.value = it
+                }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                OutlinedTextField(
-                    value = store.value,
-                    onValueChange = { store.value = it },
-                    label = { Text(stringResource(id = R.string.store)) },
-                    modifier = Modifier.fillMaxWidth()
-                )
+                InputField(
+                    valueState = store.value,
+                    labelId = stringResource(id = R.string.store),
+                    enabled = true,
+                    isSingleLine = true,
+                    icon = Icons.Rounded.LocationOn,
+                    imeAction = ImeAction.Done,
+                    onAction = KeyboardActions(
+                        onDone = {
+                            if (title.value.text.isBlank()) {
+                                isTitleError.value = true
+                            } else {
+                                onSave(
+                                    shopItemDomain.copy(
+                                        title = title.value.text,
+                                        description = description.value.text,
+                                        store = store.value.text
+                                    )
+                                )
+                                onDismiss()
+                            }
+                        }
+                    )
+                ) {
+                    store.value = it
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -105,14 +148,14 @@ fun AddOrUpdateShopItemDialog(
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         onClick = {
-                            if (title.value.isBlank()) {
+                            if (title.value.text.isBlank()) {
                                 isTitleError.value = true
                             } else {
                                 onSave(
                                     shopItemDomain.copy(
-                                        title = title.value,
-                                        description = description.value,
-                                        store = store.value
+                                        title = title.value.text,
+                                        description = description.value.text,
+                                        store = store.value.text
                                     )
                                 )
                                 onDismiss()
@@ -123,6 +166,43 @@ fun AddOrUpdateShopItemDialog(
                     }
                 }
             }
+
+            LaunchedEffect(true) {
+                delay(100)
+                focusRequester.requestFocus()
+            }
         }
     }
+}
+
+@Composable
+fun InputField(
+    modifier: Modifier = Modifier,
+    valueState: TextFieldValue,
+    labelId: String,
+    enabled: Boolean,
+    isSingleLine: Boolean,
+    keyboardType: KeyboardType = KeyboardType.Ascii,
+    imeAction: ImeAction = ImeAction.Next,
+    onAction: KeyboardActions = KeyboardActions.Default,
+    icon: ImageVector,
+    onValueChange: (TextFieldValue) -> Unit,
+) {
+    OutlinedTextField(
+        value = valueState,
+        onValueChange = onValueChange,
+        label = { Text(text = labelId) },
+        leadingIcon = {
+            Icon(
+                imageVector = icon,
+                contentDescription = "icon"
+            )
+        },
+        singleLine = isSingleLine,
+        textStyle = TextStyle(fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground),
+        modifier = modifier.fillMaxWidth(),
+        enabled = enabled,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
+        keyboardActions = onAction
+    )
 }
