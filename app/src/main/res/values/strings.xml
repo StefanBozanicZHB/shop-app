@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Shop App</string>
+    <string name="app_name">Shopping List</string>
     <string name="title">Title</string>
     <string name="store">Store</string>
     <string name="completed">Completed</string>
