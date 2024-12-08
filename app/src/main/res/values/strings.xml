@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Shop App</string>
-    <string name="shop_list">Shop List</string>
     <string name="title">Title</string>
     <string name="store">Store</string>
     <string name="completed">Completed</string>
@@ -21,4 +20,5 @@
     <string name="description">Description</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="empty_screen">Add First Item</string>
 </resources>

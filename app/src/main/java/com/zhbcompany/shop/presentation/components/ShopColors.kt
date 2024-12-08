@@ -16,11 +16,11 @@ data class ShopItemColors(
 @Composable
 fun getShopColors(shopItemDomain: ShopItemDomain): ShopItemColors {
     return ShopItemColors(
-        backgroundColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f),
-        textColor = MaterialTheme.colorScheme.onSecondary,
-        archiveIconColor = MaterialTheme.colorScheme.onSecondary,
-        checkColor = if (shopItemDomain.completed) MaterialTheme.colorScheme.onSecondary
-        else MaterialTheme.colorScheme.onSecondary,
-        deleteColor = MaterialTheme.colorScheme.onSecondary
+        backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
+        textColor = MaterialTheme.colorScheme.onTertiaryContainer,
+        archiveIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
+        checkColor = if (shopItemDomain.completed) MaterialTheme.colorScheme.onTertiaryContainer
+        else MaterialTheme.colorScheme.onTertiaryContainer,
+        deleteColor = MaterialTheme.colorScheme.onTertiaryContainer
     )
 }

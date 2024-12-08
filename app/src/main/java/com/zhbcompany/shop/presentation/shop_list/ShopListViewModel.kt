@@ -114,6 +114,7 @@ class ShopListViewModel(
                 } else {
                     shopUseCases.addShopItem(shopItem)
                 }
+                getShopItems()
 //                _eventFlow.emit(UiEvent.SaveShop)
             } catch (e: Exception) {
 //                _eventFlow.emit(

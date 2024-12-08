@@ -1,5 +1,6 @@
 package com.zhbcompany.shop.presentation.shop_list
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -101,12 +103,12 @@ fun ShopListScreen(
                         isDialogVisible.value = true
                     },
                     shape = CircleShape,
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = stringResource(id = R.string.add_shop_item),
-                        tint = MaterialTheme.colorScheme.onPrimary
+                        tint = MaterialTheme.colorScheme.onTertiaryContainer
                     )
                 }
             },
@@ -114,19 +116,19 @@ fun ShopListScreen(
                 CenterAlignedTopAppBar(
                     title = {
                         Text(
-                            text = stringResource(id = R.string.shop_list),
+                            text = stringResource(id = R.string.app_name),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             style = MaterialTheme.typography.headlineLarge,
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
-                        scrolledContainerColor = MaterialTheme.colorScheme.primary,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        scrolledContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        actionIconContentColor = MaterialTheme.colorScheme.onTertiaryContainer
                     ),
                     navigationIcon = {},
                     actions = {
@@ -156,65 +158,51 @@ fun ShopListScreen(
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(all = 4.dp)
-                        ) {
-                            items(state.shopItemDomains) { item ->
-                                ShopItemCard(
-                                    shopItemDomain = item,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(4.dp),
-                                    onDeleteClick = {
-                                        viewModel.onEvent(ShopListEvent.Delete(item))
-                                        scope.launch {
-                                            val undo = snackBarHostState.showSnackbar(
-                                                message = context.getString(R.string.shop_item_deleted),
-                                                actionLabel = context.getString(R.string.undo)
-                                            )
-                                            if (undo == SnackbarResult.ActionPerformed) {
-                                                viewModel.onEvent(ShopListEvent.UndoDelete)
+                        if (!state.isLoading && state.shopItemDomains.isEmpty()) {
+                            ShowText(stringResource(R.string.empty_screen))
+                        } else {
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(all = 4.dp)
+                            ) {
+                                items(state.shopItemDomains) { item ->
+                                    ShopItemCard(
+                                        shopItemDomain = item,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(4.dp),
+                                        onDeleteClick = {
+                                            viewModel.onEvent(ShopListEvent.Delete(item))
+                                            scope.launch {
+                                                val undo = snackBarHostState.showSnackbar(
+                                                    message = context.getString(R.string.shop_item_deleted),
+                                                    actionLabel = context.getString(R.string.undo),
+                                                    duration = SnackbarDuration.Short
+                                                )
+                                                if (undo == SnackbarResult.ActionPerformed) {
+                                                    viewModel.onEvent(ShopListEvent.UndoDelete)
+                                                    snackBarHostState.currentSnackbarData?.dismiss()
+                                                }
                                             }
+                                        },
+                                        onCompleteClick = {
+                                            viewModel.onEvent(ShopListEvent.ToggleCompleted(item))
+                                        },
+                                        onCardClick = {
+                                            viewModel.currentShopItem = item
+                                            isDialogVisible.value = true
                                         }
-                                    },
-                                    onCompleteClick = {
-                                        viewModel.onEvent(ShopListEvent.ToggleCompleted(item))
-                                    },
-                                    onCardClick = {
-                                        viewModel.currentShopItem = item
-                                        isDialogVisible.value = true
-                                    }
-                                )
+                                    )
+                                }
                             }
                         }
                     }
                     if (state.isLoading) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            CircularProgressIndicator(
-                                Modifier.semantics {
-                                    this.contentDescription = context.getString(R.string.loading_indicator)
-                                }
-                            )
-                        }
+                        Loading(context)
                     }
                     if (state.error != null) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = state.error,
-                                fontSize = 30.sp,
-                                lineHeight = 36.sp
-                            )
-                        }
+                        ShowText(state.error)
                     }
                 }
             }
@@ -227,6 +215,36 @@ fun ShopListScreen(
             onSave = { shopItem ->
                 viewModel.saveShopItem(shopItem)
                 Log.d("ZHB", shopItem.toString())
+            }
+        )
+    }
+}
+
+@Composable
+fun ShowText(text: String) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = text,
+            fontSize = 30.sp,
+            lineHeight = 36.sp
+        )
+    }
+}
+
+@Composable
+fun Loading(context: Context) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            Modifier.semantics {
+                this.contentDescription = context.getString(R.string.loading_indicator)
             }
         )
     }
