@@ -3,6 +3,7 @@ package com.zhbcompany.shop.presentation.shop_list.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,58 +36,55 @@ fun ShopItemCard(
     val shopItemColors = getShopColors(shopItemDomain = shopItemDomain)
 
     Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .defaultMinSize(minHeight = 50.dp),
+        shape = RoundedCornerShape(12.dp),
         onClick = onCardClick,
         colors = CardDefaults.cardColors(containerColor = shopItemColors.backgroundColor)
     ) {
         Row(
-            modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            CompleteButton(onCompleteClick, shopItemColors.checkColor, shopItemDomain.completed)
-            Text(
-                text = shopItemDomain.title,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = shopItemColors.textColor,
-                fontSize = 32.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-
-        Row(
             verticalAlignment = Alignment.Top
         ) {
+            CompleteButton(onCompleteClick, shopItemColors.checkColor, shopItemDomain.completed)
             Column(
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(start = 8.dp)
+                    .padding(horizontal = 2.dp, vertical = 2.dp)
                     .weight(1f),
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(
-                    text = shopItemDomain.description,
-                    style = MaterialTheme.typography.bodyLarge,
+                    text = shopItemDomain.title,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
                     color = shopItemColors.textColor,
-                    fontSize = 24.sp,
-                    maxLines = 10,
+                    fontSize = 28.sp,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+                if (shopItemDomain.description.isNotBlank()) {
+                    Text(
+                        text = shopItemDomain.description,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = shopItemColors.textColor,
+                        fontSize = 18.sp,
+                        maxLines = 10,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                if (shopItemDomain.store.isNotBlank()) {
+                    Text(
+                        text = shopItemDomain.store,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = shopItemColors.textColor,
+                        fontSize = 18.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
-
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.1f)
-                    .padding(end = 4.dp)
-            ) {
-                DeleteButton(onDeleteClick = onDeleteClick)
-            }
+            DeleteButton(onDeleteClick = onDeleteClick, color = shopItemColors.deleteColor)
         }
     }
 }
@@ -101,6 +99,44 @@ fun ShopItemCardPreview() {
                 description = "Keep learning Kotlin so that you can learn how to make really cool apps",
                 store = "Store 01",
                 completed = true,
+                id = 1
+            ),
+            onDeleteClick = {},
+            onCompleteClick = {},
+            onCardClick = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ShopItemCardPreview2() {
+    ShopTheme {
+        ShopItemCard(
+            shopItemDomain = ShopItemDomain(
+                title = "Subscribe to my channel & like this video ",
+                description = "",
+                store = "Store 01",
+                completed = true,
+                id = 1
+            ),
+            onDeleteClick = {},
+            onCompleteClick = {},
+            onCardClick = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ShopItemCardPreview3() {
+    ShopTheme {
+        ShopItemCard(
+            shopItemDomain = ShopItemDomain(
+                title = "Subscribe to my channel & like this video ",
+                description = "",
+                store = "",
+                completed = false,
                 id = 1
             ),
             onDeleteClick = {},

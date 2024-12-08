@@ -9,7 +9,8 @@ data class ShopItemColors(
     val backgroundColor: Color,
     val textColor: Color,
     val archiveIconColor: Color,
-    val checkColor: Color
+    val checkColor: Color,
+    val deleteColor: Color,
 )
 
 @Composable
@@ -18,7 +19,8 @@ fun getShopColors(shopItemDomain: ShopItemDomain): ShopItemColors {
         backgroundColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f),
         textColor = MaterialTheme.colorScheme.onSecondary,
         archiveIconColor = MaterialTheme.colorScheme.onSecondary,
-        checkColor = if (shopItemDomain.completed) MaterialTheme.colorScheme.tertiaryContainer
-        else MaterialTheme.colorScheme.onSecondary
+        checkColor = if (shopItemDomain.completed) MaterialTheme.colorScheme.onSecondary
+        else MaterialTheme.colorScheme.onSecondary,
+        deleteColor = MaterialTheme.colorScheme.onSecondary
     )
 }

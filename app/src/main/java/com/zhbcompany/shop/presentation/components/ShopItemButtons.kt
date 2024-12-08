@@ -33,7 +33,7 @@ fun CompleteButton(
                 imageVector = Icons.Default.CheckCircle,
                 contentDescription = stringResource(id = R.string.complete_shop_item),
                 tint = color,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(32.dp)
             )
         } else {
             EmptyCircle(color = color)
@@ -47,7 +47,7 @@ fun EmptyCircle(color: Color, strokeWidth: Float = 9f) {
     Canvas(
         modifier = Modifier.fillMaxSize(),
         onDraw = {
-            val radius = 39.0F
+            val radius = 32.0F
             drawCircle(
                 color,
                 center = center,
@@ -62,7 +62,7 @@ fun EmptyCircle(color: Color, strokeWidth: Float = 9f) {
 fun DeleteButton(
     modifier: Modifier = Modifier,
     onDeleteClick: () -> Unit,
-    color: Color = MaterialTheme.colorScheme.secondary,
+    color: Color = MaterialTheme.colorScheme.error,
 ) {
     IconButton(
         onClick = onDeleteClick,
@@ -71,7 +71,7 @@ fun DeleteButton(
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = stringResource(id = R.string.delete_shop_item),
-            tint = MaterialTheme.colorScheme.error,
+            tint = color,
             modifier = Modifier.size(32.dp)
         )
     }
